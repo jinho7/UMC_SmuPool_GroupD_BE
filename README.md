@@ -1,6 +1,6 @@
 # 🚕 스뮤풀(SMU Pool) - 상명대 택시 쉐어링 서비스
 
-![포스터.png](src%2Fmain%2Fresources%2Fstatic%2F%ED%8F%AC%EC%8A%A4%ED%84%B0.png)
+![포스터.png](..%2F%EC%8A%A4%EB%AE%A4%ED%92%80_%20%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20D%EC%A1%B0%20%EC%9E%90%EB%A3%8C%2F%ED%8F%AC%EC%8A%A4%ED%84%B0.png)
 -
 - 배포 URL : https://
 
