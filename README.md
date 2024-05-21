@@ -32,31 +32,45 @@
 ## 3. 패키지 구조
 ~~~
 com
-┗ example
-┗ nuribank
-┣ domain
-│   ┣ account
-│   │ ┣ controller
-│   │ ┣ dto
-│   │ ┣ entity
-│   │ ┣ exception
-│   │ ┣ repository
-│   │ ┗ service
-│   ┗ user
-│     ┣ controller
-│     ┣ dto
-│     ┣ entity
-│     ┣ exception
-│     ┣ repository
-│     ┗ service
-│ ...
-┗ global
-┣ auth
-┣ common
-┣ config
-┣ error
-┣ infra
-┗ util
+ ㄴ example
+    ㄴ smupool
+        ㄴ domain
+        |   ㄴ account
+        |   |  ㄴ repository
+        |   |  ㄴ entity
+        |   |  ㄴ converter
+        |   |  ㄴ dto
+        |   |  |  ㄴ request
+        |   |  |  ㄴ response
+        |   |  ㄴ controller
+        |   |  ㄴ service // impl은 사용 X
+        |   |  |  ㄴ commandService
+        |   |  |  |  .. accountService
+        |   |  |  ㄴ queryService
+        |   |  |  |  .. accountQueryService // readOnly
+        |   |  ㄴ handler // 각 domain의 Handler
+        |   ㄴ map
+        |   |  ㄴ // 위와 동일
+        |   ㄴ chat
+        |   |  ㄴ // 위와 동일
+        | ...
+        ㄴ global
+            ㄴ auth
+            |  ㄴ dto
+            |  ㄴ execption
+            |  ㄴ filter
+            |  ㄴ userdetails
+            |  ㄴ util
+            ㄴ apiPayload
+            |  ㄴ code
+            |  |  ㄴ status
+            |  ㄴ exception
+            ㄴ common
+            ㄴ validation
+            |  |  ㄴ annotation
+            |  |  ㄴ validator
+            ㄴ config
+            ㄴ util
 ~~~
 
 ## 4. 브랜치 전략
