@@ -48,7 +48,7 @@ com
         |   |  |  |  .. accountService
         |   |  |  ㄴ queryService
         |   |  |  |  .. accountQueryService // readOnly
-        |   |  ㄴ handler // 각 domain의 Handler
+        |   |  ㄴ exception
         |   ㄴ map
         |   |  ㄴ // 위와 동일
         |   ㄴ chat
@@ -56,15 +56,11 @@ com
         | ...
         ㄴ global
             ㄴ auth
-            |  ㄴ dto
-            |  ㄴ execption
-            |  ㄴ filter
-            |  ㄴ userdetails
-            |  ㄴ util
             ㄴ apiPayload
             |  ㄴ code
             |  |  ㄴ status
             |  ㄴ exception
+            |  |  ㄴ handler
             ㄴ common
             ㄴ validation
             |  |  ㄴ annotation
