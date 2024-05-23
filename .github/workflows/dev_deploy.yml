@@ -56,6 +56,7 @@ jobs:
           application_name: SmuPool-dev
           environment_name: SmuPool-dev-env
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
-          region: ap-northeast-1
+          region: ap-northeast-2
           deployment_package: deploy/deploy.zip
+          bucket_name: smupool
           wait_for_deployment: false
