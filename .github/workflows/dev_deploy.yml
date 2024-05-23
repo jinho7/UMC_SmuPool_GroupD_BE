@@ -58,5 +58,5 @@ jobs:
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
-          bucket_name: smupool
+          existing_bucket_name: smupool
           wait_for_deployment: false
