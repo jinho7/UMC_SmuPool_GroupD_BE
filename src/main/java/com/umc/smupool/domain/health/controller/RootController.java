@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RootController {
 
-    // 배포 된 WAS가 잘 동작하는 지 확인
+    // 배포 된 WAS가 잘 동작하는 지 확인 하기 위한 healthCheck
     @GetMapping("/health")
     public String healthCheck() {
         return "I'm healthy!";
