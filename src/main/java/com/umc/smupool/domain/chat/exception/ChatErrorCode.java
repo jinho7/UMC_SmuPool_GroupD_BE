@@ -1,7 +1,7 @@
 package com.umc.smupool.domain.chat.exception;
 
 import com.umc.smupool.global.apiPayload.ApiResponse;
-import com.umc.smupool.global.apiPayload.code.status.BaseErrorCode;
+import com.umc.smupool.global.apiPayload.code.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
