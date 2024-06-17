@@ -5,6 +5,8 @@ import com.umc.smupool.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import com.umc.smupool.domain.map.entity.Matching;
+
 @Entity
 @Getter
 @Builder
@@ -35,7 +37,7 @@ public class Member extends BaseEntity {
     }
 
 //    // FK
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "matching_id")
-//    private Matching matching;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "matching_id")
+    private Matching matching;
 }
