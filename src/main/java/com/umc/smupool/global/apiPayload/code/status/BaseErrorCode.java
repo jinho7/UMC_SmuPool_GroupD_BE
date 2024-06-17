@@ -1,9 +1,10 @@
-package com.umc.smupool.global.apiPayload.code;
+package com.umc.smupool.global.apiPayload.code.status;
 
 import com.umc.smupool.global.apiPayload.ApiResponse;
 import org.springframework.http.HttpStatus;
 
-public interface BaseCode {
+public interface BaseErrorCode {
+
     HttpStatus getHttpStatus();
 
     String getCode();

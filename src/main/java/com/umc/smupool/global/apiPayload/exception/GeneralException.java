@@ -1,6 +1,6 @@
 package com.umc.smupool.global.apiPayload.exception;
 
-import com.umc.smupool.global.apiPayload.code.BaseErrorCode;
+import com.umc.smupool.global.apiPayload.code.status.BaseErrorCode;
 import lombok.Getter;
 
 @Getter
