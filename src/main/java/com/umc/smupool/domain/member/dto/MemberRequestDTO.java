@@ -6,7 +6,7 @@ public class MemberRequestDTO {
 
     @Getter
     public static class JoinDTO {
-        private Long studentId;
+        private Long studentId; // String?
         private String password;
 //        private String name;
 //        private String nickname;

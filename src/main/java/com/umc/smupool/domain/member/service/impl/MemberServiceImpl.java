@@ -9,22 +9,17 @@ import com.umc.smupool.domain.member.entity.Member;
 import com.umc.smupool.domain.member.repository.MemberRepository;
 import com.umc.smupool.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
-
     @Override
     public Member join(MemberRequestDTO.JoinDTO joinDTO) {
-        Member member = MemberConverter.toMember(joinDTO, passwordEncoder);
+        Member member = MemberConverter.toMember(joinDTO);
         return memberRepository.save(member);
     }
 
@@ -34,12 +29,6 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findById(memberId).orElseThrow(() ->{
             throw new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER);
         });
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Member> readMembers() {
-        return memberRepository.findAll();
     }
 
     @Override
