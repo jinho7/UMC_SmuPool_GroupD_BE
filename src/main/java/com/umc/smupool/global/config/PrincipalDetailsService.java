@@ -1,0 +1,34 @@
+package com.umc.smupool.global.config;
+
+import com.umc.smupool.domain.member.entity.Member;
+import com.umc.smupool.domain.member.exception.MemberErrorCode;
+import com.umc.smupool.domain.member.exception.handler.MemberHandler;
+import com.umc.smupool.domain.member.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class PrincipalDetailsService implements UserDetailsService {
+
+    private MemberRepository memberRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String studentIdString) throws UsernameNotFoundException {
+        Long studentId;
+        try {
+            studentId = Long.parseLong(studentIdString);
+        } catch (NumberFormatException e) {
+            throw new UsernameNotFoundException("Invalid student ID format");
+        }
+
+        Member member = memberRepository.findByStudentId(studentId)
+                .orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
+
+        return new PrincipalDetails(member);
+    }
+}
