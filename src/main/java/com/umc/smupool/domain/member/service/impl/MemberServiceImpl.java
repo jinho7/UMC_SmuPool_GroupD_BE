@@ -9,6 +9,7 @@ import com.umc.smupool.domain.member.entity.Member;
 import com.umc.smupool.domain.member.repository.MemberRepository;
 import com.umc.smupool.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public Member join(MemberRequestDTO.JoinDTO joinDTO) {
-        Member member = MemberConverter.toMember(joinDTO);
+        Member member = MemberConverter.toMember(joinDTO, passwordEncoder);
         return memberRepository.save(member);
     }
 

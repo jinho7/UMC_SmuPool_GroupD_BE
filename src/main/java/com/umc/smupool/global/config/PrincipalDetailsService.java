@@ -15,17 +15,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public UserDetails loadUserByUsername(String studentIdString) throws UsernameNotFoundException {
-        Long studentId;
-        try {
-            studentId = Long.parseLong(studentIdString);
-        } catch (NumberFormatException e) {
-            throw new UsernameNotFoundException("Invalid student ID format");
-        }
-
+        Long studentId = Long.parseLong(studentIdString);
         Member member = memberRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
 
