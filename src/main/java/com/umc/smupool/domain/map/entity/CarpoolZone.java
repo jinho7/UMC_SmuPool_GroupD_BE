@@ -2,14 +2,14 @@ package com.umc.smupool.domain.map.entity;
 
 import com.umc.smupool.global.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class CarpoolZone extends BaseEntity {
@@ -27,4 +27,9 @@ public class CarpoolZone extends BaseEntity {
 
     @OneToMany(mappedBy = "carpoolZone", cascade = CascadeType.ALL)
     private List<Matching> matchingList = new ArrayList<>();
+
+    public void update(String name, String address){
+        this.name = name;
+        this.address = address;
+    }
 }

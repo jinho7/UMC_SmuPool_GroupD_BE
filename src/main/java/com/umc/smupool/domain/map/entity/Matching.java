@@ -27,7 +27,7 @@ public class Matching extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "DEFAULT 'PENDING'")
+    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'PENDING'")
     private Status status;
 
     private LocalDateTime time;
