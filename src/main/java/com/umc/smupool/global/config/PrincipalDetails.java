@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
 public class PrincipalDetails implements UserDetails {
     private final Member member;
 
+    public Long getMemberId() {
+        return member.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<String> roles = new ArrayList<>();

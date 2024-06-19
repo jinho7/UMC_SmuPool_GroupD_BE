@@ -16,6 +16,8 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private Long studentId;
 
     @Column(length = 255)
@@ -37,7 +39,7 @@ public class Member extends BaseEntity {
     }
 
 //    // FK
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "matching_id")
-    private Matching matching;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "matching_id")
+//    private Matching matching;
 }
