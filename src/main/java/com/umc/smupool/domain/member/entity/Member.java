@@ -37,7 +37,7 @@ public class Member extends BaseEntity {
     }
 
 //    // FK
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "matching_id")
-    private Matching matching;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "matching_id")
+//    private Matching matching;
 }
