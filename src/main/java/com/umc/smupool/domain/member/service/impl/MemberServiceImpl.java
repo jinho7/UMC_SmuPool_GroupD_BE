@@ -9,6 +9,7 @@ import com.umc.smupool.domain.member.entity.Member;
 import com.umc.smupool.domain.member.repository.MemberRepository;
 import com.umc.smupool.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,12 +43,14 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findAll();
     }
 
+    @PreAuthorize("#memberId == principal.memberId")
     @Override
     public void deleteMember(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(()-> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
         memberRepository.delete(member);
     }
 
+    @PreAuthorize("#memberId == principal.memberId")
     @Override
     public Member updateMember(MemberRequestDTO.UpdateMemberDTO updateMemberDTO, Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));

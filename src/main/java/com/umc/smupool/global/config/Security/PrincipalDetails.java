@@ -1,4 +1,4 @@
-package com.umc.smupool.global.config;
+package com.umc.smupool.global.config.Security;
 
 import com.umc.smupool.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PrincipalDetails implements UserDetails {
     private final Member member;
+
+    public Long getMemberId() {
+        return member.getId();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
