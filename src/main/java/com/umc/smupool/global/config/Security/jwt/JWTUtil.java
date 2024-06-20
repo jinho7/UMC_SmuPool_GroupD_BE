@@ -1,4 +1,4 @@
-package com.umc.smupool.global.config.jwt;
+package com.umc.smupool.global.config.Security.jwt;
 
 import com.umc.smupool.domain.member.exception.AuthErrorCode;
 import com.umc.smupool.domain.member.exception.handler.AuthHandler;
