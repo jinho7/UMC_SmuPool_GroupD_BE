@@ -1,6 +1,7 @@
 package com.umc.smupool.global.config;
 
 import com.umc.smupool.global.config.filter.LoginFilter;
+import com.umc.smupool.global.config.jwt.JWTFilter;
 import com.umc.smupool.global.config.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
+
+    private final PrincipalDetailsService principalDetailsService;
     private final String[] allowUrl = {
             "/swagger-ui/**",
             "/swagger-resources/**",
@@ -48,7 +51,8 @@ public class SecurityConfig {
                 .requestMatchers(allowUrl).permitAll()
                 .anyRequest().authenticated());
 
-        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTFilter(jwtUtil, principalDetailsService), UsernamePasswordAuthenticationFilter.class);
 
         http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
