@@ -1,10 +1,7 @@
 package com.umc.smupool.global.config.Security;
 
 import com.umc.smupool.global.config.Security.filter.LoginFilter;
-import com.umc.smupool.global.config.Security.jwt.JWTExceptionFilter;
-import com.umc.smupool.global.config.Security.jwt.JWTFilter;
-import com.umc.smupool.global.config.Security.jwt.JWTUtil;
-import com.umc.smupool.global.config.Security.jwt.JwtAccessDeniedHandler;
+import com.umc.smupool.global.config.Security.jwt.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +27,7 @@ public class SecurityConfig {
     private final JWTUtil jwtUtil;
     private final PrincipalDetailsService principalDetailsService;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private final String[] allowUrl = {
             "/swagger-ui/**",
@@ -62,6 +60,7 @@ public class SecurityConfig {
                 (configurer ->
                         configurer
                                 .accessDeniedHandler(jwtAccessDeniedHandler)
+                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
         );
 
