@@ -16,6 +16,7 @@ public enum AuthErrorCode implements BaseErrorCode {
     _AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "AUTH401_3", "인증에 실패하였습니다.");
 
     private final HttpStatus httpStatus;
+
     private final String code;
     private final String message;
 

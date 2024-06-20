@@ -1,6 +1,7 @@
 package com.umc.smupool.global.config.Security;
 
 import com.umc.smupool.global.config.Security.filter.LoginFilter;
+import com.umc.smupool.global.config.Security.jwt.JWTExceptionFilter;
 import com.umc.smupool.global.config.Security.jwt.JWTFilter;
 import com.umc.smupool.global.config.Security.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,8 @@ public class SecurityConfig {
                 .anyRequest().authenticated());
 
         http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JWTFilter(jwtUtil, principalDetailsService), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JWTFilter(jwtUtil, principalDetailsService), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JWTExceptionFilter(), JWTFilter.class);
 
         http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
