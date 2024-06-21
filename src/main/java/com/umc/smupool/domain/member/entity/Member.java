@@ -40,4 +40,8 @@ public class Member extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "matching_id")
     private Matching matching;
+
+    public void setMatching(Matching matching) {
+        this.matching = matching;
+    }
 }

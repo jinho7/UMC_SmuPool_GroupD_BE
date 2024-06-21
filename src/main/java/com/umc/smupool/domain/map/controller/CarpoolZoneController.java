@@ -7,7 +7,6 @@ import com.umc.smupool.domain.map.entity.CarpoolZone;
 import com.umc.smupool.domain.map.service.commandService.CarpoolZoneCommandService;
 import com.umc.smupool.domain.map.service.queryService.CarpoolZoneQueryService;
 import com.umc.smupool.global.apiPayload.ApiResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,5 +48,6 @@ public class CarpoolZoneController {
     public ApiResponse<CarpoolZoneResponseDTO.CarpoolZonePreviewDTO> updateCarpoolZone(@RequestBody CarpoolZoneRequestDTO.UpdateCarpoolZoneDTO request, @PathVariable Long carpoolZoneId) {
         CarpoolZone carpoolZone = carpoolZoneCommandService.updateCarpoolZone(request, carpoolZoneId);
         return ApiResponse.onSuccess(CarpoolZoneConverter.toCarpoolZonePreviewDTO(carpoolZone));
+
     }
 }

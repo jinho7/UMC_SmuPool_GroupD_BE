@@ -25,6 +25,7 @@ public class CarpoolZone extends BaseEntity {
     @Column(nullable = false)
     private String address;
 
+    @Builder.Default
     @OneToMany(mappedBy = "carpoolZone", cascade = CascadeType.ALL)
     private List<Matching> matchingList = new ArrayList<>();
 
