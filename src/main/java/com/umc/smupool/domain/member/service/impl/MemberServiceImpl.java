@@ -31,10 +31,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public Member readMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() ->{
-            throw new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER);
-        });
+    public Member readMember(Member member) {
+        return member;
     }
 
     @Override
@@ -43,10 +41,8 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findAll();
     }
 
-    @PreAuthorize("#memberId == principal.memberId")
     @Override
-    public void deleteMember(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(()-> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
+    public void deleteMember(Member member) {
         memberRepository.delete(member);
     }
 

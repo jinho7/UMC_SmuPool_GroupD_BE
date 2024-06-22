@@ -8,10 +8,10 @@ import java.util.List;
 public interface MemberService {
     Member join(MemberRequestDTO.JoinDTO joinDTO);
 
-    Member readMember(Long memberId);
+    Member readMember(Member member);
     List<Member> readMembers();
 
-    void deleteMember(Long memberId);
+    void deleteMember(Member member);
 
     Member updateMember(Member member, MemberRequestDTO.UpdateMemberDTO updateMemberDTO);
 }
