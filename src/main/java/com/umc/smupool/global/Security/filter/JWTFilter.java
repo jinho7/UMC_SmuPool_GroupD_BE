@@ -1,8 +1,9 @@
-package com.umc.smupool.global.config.Security.jwt;
+package com.umc.smupool.global.Security.filter;
 
 import com.umc.smupool.domain.member.exception.MemberErrorCode;
 import com.umc.smupool.domain.member.exception.handler.AuthHandler;
-import com.umc.smupool.global.config.Security.PrincipalDetailsService;
+import com.umc.smupool.global.Security.userdetails.PrincipalDetailsService;
+import com.umc.smupool.global.Security.util.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,11 +1,11 @@
 package com.umc.smupool.domain.member.entity;
 
 
+import com.umc.smupool.domain.map.entity.Matching;
 import com.umc.smupool.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import com.umc.smupool.domain.map.entity.Matching;
 
 @Entity
 @Getter
@@ -13,6 +13,7 @@ import com.umc.smupool.domain.map.entity.Matching;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +33,7 @@ public class Member extends BaseEntity {
     @Column(length = 20)
     private String major;
   
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "matching_id")
     private Matching matching;
 

@@ -1,4 +1,4 @@
-package com.umc.smupool.global.config.Security.jwt;
+package com.umc.smupool.global.Security.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umc.smupool.domain.member.exception.AuthErrorCode;

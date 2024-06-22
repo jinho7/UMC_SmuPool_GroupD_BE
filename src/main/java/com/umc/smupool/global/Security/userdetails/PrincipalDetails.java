@@ -1,4 +1,4 @@
-package com.umc.smupool.global.config.Security;
+package com.umc.smupool.global.Security.userdetails;
 
 import com.umc.smupool.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
