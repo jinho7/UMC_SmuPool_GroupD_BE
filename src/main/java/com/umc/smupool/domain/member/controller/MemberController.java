@@ -10,6 +10,8 @@ import com.umc.smupool.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -26,6 +28,12 @@ public class MemberController {
     public ApiResponse<MemberResponseDTO.MemberPreviewDTO> readMember(@PathVariable Long memberId) {
         Member member = memberService.readMember(memberId);
         return ApiResponse.onSuccess(MemberConverter.toMemberPreviewDTO(member));
+    }
+
+    @GetMapping("/")
+    public ApiResponse<MemberResponseDTO.MemberPreviewListDTO> readMembers() {
+        List<Member> memberList = memberService.readMembers();
+        return ApiResponse.onSuccess(MemberConverter.toMemberPreviewListDTO(memberList));
     }
 
     @PatchMapping("/{memberId}")
