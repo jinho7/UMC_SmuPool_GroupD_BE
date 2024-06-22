@@ -38,7 +38,6 @@ public class Matching extends BaseEntity {
     @JoinColumn(name = "carpool_zone_id")
     private CarpoolZone carpoolZone;
 
-    @Builder.Default
     @OneToMany(mappedBy = "matching", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Member> memberMatchingList = new ArrayList<>();
 

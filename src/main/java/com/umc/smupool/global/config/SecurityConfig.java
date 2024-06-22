@@ -1,7 +1,13 @@
-package com.umc.smupool.global.config.Security;
+package com.umc.smupool.global.config;
 
-import com.umc.smupool.global.config.Security.filter.LoginFilter;
-import com.umc.smupool.global.config.Security.jwt.*;
+import com.umc.smupool.global.Security.filter.JWTFilter;
+import com.umc.smupool.global.Security.userdetails.PrincipalDetailsService;
+import com.umc.smupool.global.Security.exception.JWTExceptionFilter;
+import com.umc.smupool.global.Security.exception.JwtAccessDeniedHandler;
+import com.umc.smupool.global.Security.exception.JwtAuthenticationEntryPoint;
+import com.umc.smupool.global.Security.filter.LoginFilter;
+import com.umc.smupool.global.Security.util.JWTUtil;
+import com.umc.smupool.global.Security.filter.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

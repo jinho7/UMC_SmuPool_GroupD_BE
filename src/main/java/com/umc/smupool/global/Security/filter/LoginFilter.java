@@ -1,13 +1,13 @@
-package com.umc.smupool.global.config.Security.filter;
+package com.umc.smupool.global.Security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umc.smupool.domain.member.dto.LoginRequestDTO;
 import com.umc.smupool.domain.member.exception.AuthErrorCode;
 import com.umc.smupool.domain.member.exception.handler.AuthHandler;
+import com.umc.smupool.global.Security.userdetails.PrincipalDetails;
+import com.umc.smupool.global.Security.util.JWTUtil;
 import com.umc.smupool.global.apiPayload.ApiResponse;
 import com.umc.smupool.global.apiPayload.code.status.GeneralErrorCode;
-import com.umc.smupool.global.config.Security.PrincipalDetails;
-import com.umc.smupool.global.config.Security.jwt.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
