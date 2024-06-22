@@ -31,6 +31,10 @@ public class Member extends BaseEntity {
 
     @Column(length = 20)
     private String major;
+  
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "matching_id")
+    private Matching matching;
 
     public void update(String name, String nickname, String major) {
         this.name = name;
@@ -38,8 +42,8 @@ public class Member extends BaseEntity {
         this.major = major;
     }
 
-//    // FK
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "matching_id")
-//    private Matching matching;
+    public void setMatching(Matching matching) {
+        this.matching = matching;
+    }
+
 }

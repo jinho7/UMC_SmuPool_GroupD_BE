@@ -27,7 +27,7 @@ public class Matching extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "DEFAULT 'PENDING'")
+    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'PENDING'")
     private Status status;
 
     private LocalDateTime time;
@@ -38,7 +38,21 @@ public class Matching extends BaseEntity {
     @JoinColumn(name = "carpool_zone_id")
     private CarpoolZone carpoolZone;
 
-    @OneToMany(mappedBy = "matching", cascade = CascadeType.ALL)
-    private List<Member> memberList = new ArrayList<>();
+    @Builder.Default
+    @OneToMany(mappedBy = "matching", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Member> memberMatchingList = new ArrayList<>();
+
+    public void addMemberMatchingList(Member member) {
+        memberMatchingList.add(member);
+    }
+
+    public void updateStatus(Status status) {
+        this.status = status;
+    }
+
+    public void updateGoalNum(int goal_num) {
+        this.goal_num = goal_num;
+    }
+
 
 }
