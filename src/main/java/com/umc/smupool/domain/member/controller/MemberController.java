@@ -25,13 +25,13 @@ public class MemberController {
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
     }
 
-    @GetMapping("/{memberId}")
-    public ApiResponse<MemberResponseDTO.MemberPreviewDTO> readMember(@PathVariable Long memberId) {
-        Member member = memberService.readMember(memberId);
-        return ApiResponse.onSuccess(MemberConverter.toMemberPreviewDTO(member));
+    @GetMapping("/")
+    public ApiResponse<MemberResponseDTO.MemberPreviewDTO> readMember(@AuthMember Member member) {
+        Member readmember = memberService.readMember(member);
+        return ApiResponse.onSuccess(MemberConverter.toMemberPreviewDTO(readmember));
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ApiResponse<MemberResponseDTO.MemberPreviewListDTO> readMembers() {
         List<Member> memberList = memberService.readMembers();
         return ApiResponse.onSuccess(MemberConverter.toMemberPreviewListDTO(memberList));
@@ -44,9 +44,9 @@ public class MemberController {
     }
 
 
-    @DeleteMapping("/{memberId}")
-    public ApiResponse<String> deleteMember(@PathVariable Long memberId) {
-        memberService.deleteMember(memberId);
+    @DeleteMapping("/")
+    public ApiResponse<String> deleteMember(@AuthMember Member member) {
+        memberService.deleteMember(member);
         return ApiResponse.onSuccess("멤버가 삭제되었습니다.");
     }
 
