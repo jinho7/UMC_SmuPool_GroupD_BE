@@ -13,5 +13,5 @@ public interface MemberService {
 
     void deleteMember(Long memberId);
 
-    Member updateMember(MemberRequestDTO.UpdateMemberDTO updateMemberDTO, Long memberId);
+    Member updateMember(Member member, MemberRequestDTO.UpdateMemberDTO updateMemberDTO);
 }

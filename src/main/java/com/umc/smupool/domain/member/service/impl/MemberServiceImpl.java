@@ -50,10 +50,8 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.delete(member);
     }
 
-    @PreAuthorize("#memberId == principal.memberId")
     @Override
-    public Member updateMember(MemberRequestDTO.UpdateMemberDTO updateMemberDTO, Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
+    public Member updateMember(Member member, MemberRequestDTO.UpdateMemberDTO updateMemberDTO) {
         member.update(updateMemberDTO.getName(), updateMemberDTO.getNickname(), updateMemberDTO.getMajor());
         return member;
     }

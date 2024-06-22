@@ -6,6 +6,7 @@ import com.umc.smupool.domain.member.dto.MemberRequestDTO;
 import com.umc.smupool.domain.member.dto.MemberResponseDTO;
 import com.umc.smupool.domain.member.entity.Member;
 import com.umc.smupool.domain.member.service.MemberService;
+import com.umc.smupool.global.annotation.AuthMember;
 import com.umc.smupool.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +37,10 @@ public class MemberController {
         return ApiResponse.onSuccess(MemberConverter.toMemberPreviewListDTO(memberList));
     }
 
-    @PatchMapping("/{memberId}")
-    public ApiResponse<MemberResponseDTO.MemberPreviewDTO> updateMember(@RequestBody MemberRequestDTO.UpdateMemberDTO updateMemberDTO, @PathVariable Long memberId){
-        Member member = memberService.updateMember(updateMemberDTO, memberId);
-        return ApiResponse.onSuccess(MemberConverter.toMemberPreviewDTO(member));
+    @PatchMapping("/")
+    public ApiResponse<MemberResponseDTO.MemberPreviewDTO> updateMember(@AuthMember Member member, @RequestBody MemberRequestDTO.UpdateMemberDTO updateMemberDTO){
+        Member updatemember = memberService.updateMember(member, updateMemberDTO);
+        return ApiResponse.onSuccess(MemberConverter.toMemberPreviewDTO(updatemember));
     }
 
 
