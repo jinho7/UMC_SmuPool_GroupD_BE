@@ -4,6 +4,7 @@ package com.umc.smupool.domain.member.controller;
 import com.umc.smupool.domain.auth.dto.AuthResponseDTO;
 import com.umc.smupool.domain.auth.service.AuthService;
 import com.umc.smupool.domain.member.converter.MemberConverter;
+import com.umc.smupool.domain.member.dto.AuthMemberRequestDTO;
 import com.umc.smupool.domain.member.dto.MemberRequestDTO;
 import com.umc.smupool.domain.member.dto.MemberResponseDTO;
 import com.umc.smupool.domain.member.entity.Member;
@@ -22,8 +23,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/")
-    public ApiResponse<MemberResponseDTO.JoinResultDTO> join(@RequestBody MemberRequestDTO.JoinDTO joinDTO) {
-        Member member = memberService.join(joinDTO);
+    public ApiResponse<MemberResponseDTO.JoinResultDTO> join(@RequestBody AuthMemberRequestDTO authMemberRequestDTO) {
+        Member member = memberService.join(authMemberRequestDTO.getJoinDTO(), authMemberRequestDTO.getAuthResponseDTO());
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
     }
 

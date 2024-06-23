@@ -7,7 +7,7 @@ import com.umc.smupool.domain.member.entity.Member;
 import java.util.List;
 
 public interface MemberService {
-    Member join(MemberRequestDTO.JoinDTO joinDTO);
+    Member join(MemberRequestDTO.JoinDTO joinDTO, AuthResponseDTO authResponseDTO);
 
     Member readMember(Member member);
     List<Member> readMembers();

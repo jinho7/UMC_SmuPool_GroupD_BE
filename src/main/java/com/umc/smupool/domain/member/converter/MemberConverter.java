@@ -12,10 +12,13 @@ import java.util.List;
 
 public class MemberConverter {
 
-    public static Member toMember(MemberRequestDTO.JoinDTO joinDTO, PasswordEncoder passwordEncoder) {
+    public static Member toMember(MemberRequestDTO.JoinDTO joinDTO, PasswordEncoder passwordEncoder, AuthResponseDTO authResponseDTO) {
         return Member.builder()
                 .studentId(joinDTO.getStudentId())
                 .password(passwordEncoder.encode(joinDTO.getPassword()))
+                .name(authResponseDTO.name())
+                .nickname(authResponseDTO.name())
+                .major(authResponseDTO.department())
                 .build();
     }
 
