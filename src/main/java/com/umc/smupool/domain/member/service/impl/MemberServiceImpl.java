@@ -26,8 +26,8 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Member join(MemberRequestDTO.JoinDTO joinDTO) {
-        Member member = MemberConverter.toMember(joinDTO, passwordEncoder);
+    public Member join(MemberRequestDTO.JoinDTO joinDTO, AuthResponseDTO authResponseDTO) {
+        Member member = MemberConverter.toMember(joinDTO, passwordEncoder, authResponseDTO);
         return memberRepository.save(member);
     }
 

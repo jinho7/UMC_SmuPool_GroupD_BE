@@ -3,7 +3,6 @@ package com.umc.smupool.domain.auth.service;
 import com.umc.smupool.domain.auth.dto.AuthRequestDTO;
 import com.umc.smupool.domain.auth.dto.AuthResponseDTO;
 import com.umc.smupool.domain.member.exception.AuthErrorCode;
-import com.umc.smupool.global.apiPayload.code.status.GeneralErrorCode;
 import com.umc.smupool.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
