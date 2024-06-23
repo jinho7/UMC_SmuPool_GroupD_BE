@@ -40,7 +40,8 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
             "/login",
-            "/auth"
+            "/auth",
+            "/ws"
     };
 
     @Bean

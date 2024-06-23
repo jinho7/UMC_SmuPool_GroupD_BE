@@ -24,7 +24,7 @@ public class MatchingConverter {
     public static Matching toMatching(MatchingRequestDTO.CreateMatchingDTO request, CarpoolZone carpoolZone) {
 
         return Matching.builder()
-                .time(request.getTime())
+//                .time(request.getTime())
                 .goal_num(request.getGoal_num())
                 .carpoolZone(carpoolZone)
                 .memberMatchingList(new ArrayList<>())
