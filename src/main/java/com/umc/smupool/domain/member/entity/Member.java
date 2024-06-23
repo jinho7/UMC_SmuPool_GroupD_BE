@@ -1,6 +1,7 @@
 package com.umc.smupool.domain.member.entity;
 
 
+import com.umc.smupool.domain.chat.entity.ChatRoom;
 import com.umc.smupool.domain.map.entity.Matching;
 import com.umc.smupool.global.common.BaseEntity;
 import jakarta.persistence.*;
@@ -37,12 +38,20 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "matching_id")
     private Matching matching;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoom;
+
     public void update(String nickname) {
         this.nickname = nickname;
     }
 
     public void setMatching(Matching matching) {
         this.matching = matching;
+    }
+
+    public void setChatRoom(ChatRoom chatRoom) {
+        this.chatRoom = chatRoom;
     }
 
 }

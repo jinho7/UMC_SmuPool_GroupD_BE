@@ -13,6 +13,7 @@ public class ChatAlarmController {
 
     private final AlarmService alarmService;
 
+    // 버리자
     @MessageMapping("/chat.send")  // /chat.send 경로로 전송된 메시지를 수신
     public void sendMessage(MessageAlarmDTO messageAlarmDTO) {
         Long chatId = messageAlarmDTO.getMatchingId();

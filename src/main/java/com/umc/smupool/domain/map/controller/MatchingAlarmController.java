@@ -21,9 +21,9 @@ public class MatchingAlarmController {
         return requestDTO;
     }
 
-    @MessageMapping("/matching.check")
-    @SendTo("/topic/matching")
-    public void checkAndMatchAllQueues() {
-        matchingCommandService.checkAndMatchAllQueues();
-    }
+//    @MessageMapping("/matching.check")
+//    @SendTo("/topic/matching")
+//    public void checkAndMatchAllQueues() {
+//        matchingCommandService.checkAndMatchAllQueues();
+//    }
 }
