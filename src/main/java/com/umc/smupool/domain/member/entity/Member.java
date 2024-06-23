@@ -37,10 +37,8 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "matching_id")
     private Matching matching;
 
-    public void update(String name, String nickname, String major) {
-        this.name = name;
+    public void update(String nickname) {
         this.nickname = nickname;
-        this.major = major;
     }
 
     public void setMatching(Matching matching) {

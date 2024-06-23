@@ -1,6 +1,8 @@
 package com.umc.smupool.domain.member.service.impl;
 
 
+import com.umc.smupool.domain.auth.dto.AuthRequestDTO;
+import com.umc.smupool.domain.auth.dto.AuthResponseDTO;
 import com.umc.smupool.domain.member.exception.MemberErrorCode;
 import com.umc.smupool.domain.member.exception.handler.MemberHandler;
 import com.umc.smupool.domain.member.converter.MemberConverter;
@@ -48,7 +50,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member updateMember(Member member, MemberRequestDTO.UpdateMemberDTO updateMemberDTO) {
-        member.update(updateMemberDTO.getName(), updateMemberDTO.getNickname(), updateMemberDTO.getMajor());
+        member.update(updateMemberDTO.getNickname());
         return member;
     }
 }
