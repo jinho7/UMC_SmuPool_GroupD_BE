@@ -5,6 +5,7 @@ import com.umc.smupool.domain.map.dto.request.MatchingRequestDTO;
 import com.umc.smupool.domain.map.entity.CarpoolZone;
 import com.umc.smupool.domain.map.entity.Matching;
 import com.umc.smupool.domain.map.event.MatchingCompletedEvent;
+import com.umc.smupool.domain.map.entity.enums.Status;
 import com.umc.smupool.domain.map.exception.CarpoolZoneErrorCode;
 import com.umc.smupool.domain.map.exception.MatchingErrorCode;
 import com.umc.smupool.domain.map.exception.handler.CarpoolZoneHandler;
@@ -14,11 +15,11 @@ import com.umc.smupool.domain.map.repository.MatchingRepository;
 import com.umc.smupool.domain.map.service.commandService.MatchingCommandService;
 import com.umc.smupool.domain.member.entity.Member;
 import com.umc.smupool.domain.member.exception.handler.MemberHandler;
-import com.umc.smupool.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MatchingCommandServiceImpl implements MatchingCommandService {
 
     private final MatchingRepository matchingRepository;
-    private final MemberRepository memberRepository;
     private final CarpoolZoneRepository carpoolZoneRepository;
     private final Map<String, List<MatchingRequestDTO.CreateMatchingDTO>> matchingQueues = new ConcurrentHashMap<>();
     private final ApplicationEventPublisher eventPublisher;
@@ -43,10 +43,20 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
 
         Matching newMatching = MatchingConverter.toMatching(request, carpoolZone);
 
-        newMatching.addMemberMatchingList(member);
-        member.setMatching(newMatching);
+        Matching existingMatching = isExistMatching(newMatching);
 
-        return matchingRepository.save(newMatching);
+        if(existingMatching == null){
+            newMatching.addMemberMatchingList(member);
+            member.setMatching(newMatching);
+
+            return matchingRepository.save(newMatching);
+        }
+        else {
+            existingMatching.addMemberMatchingList(member);
+            member.setMatching(existingMatching);
+
+            return matchingRepository.save(existingMatching);
+        }
     }
 
 
@@ -102,6 +112,21 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
             matchingQueues.remove(key);
             eventPublisher.publishEvent(new MatchingCompletedEvent(this, userIds));
         }
+    }
+
+    private Matching isExistMatching(Matching matching) {
+        return matchingRepository.findAll().stream()
+                .filter(existingMatching -> isSameMatching(existingMatching, matching))
+                .findFirst()
+                .orElse(null);
+    }
+
+
+    private boolean isSameMatching(Matching existingMatching, Matching matching) {
+        return (existingMatching.getGoal_num()==matching.getGoal_num())
+                && existingMatching.getCarpoolZone().equals(matching.getCarpoolZone())
+                && existingMatching.getStatus().equals(Status.PENDING)
+                && existingMatching.getTime().equals(matching.getTime());
     }
 
 }

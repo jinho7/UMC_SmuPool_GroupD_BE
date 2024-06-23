@@ -31,6 +31,7 @@ public class MatchingResponseDTO {
         int goal_num;
         Long carpoolZoneId;
         List<Long> memberMatchingList;
+        int currentMatchedCount;
     }
 
     @Builder
