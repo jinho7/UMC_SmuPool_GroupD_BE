@@ -44,6 +44,7 @@ public class MatchingConverter {
                 .goal_num(matching.getGoal_num())
                 .carpoolZoneId(matching.getCarpoolZone().getId())
                 .memberMatchingList(memberMatchingIds)
+                .currentMatchedCount(matching.getMemberMatchingList().size())
                 .build();
     }
 
