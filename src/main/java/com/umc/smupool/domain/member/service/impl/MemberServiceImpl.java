@@ -1,6 +1,8 @@
 package com.umc.smupool.domain.member.service.impl;
 
 
+import com.umc.smupool.domain.auth.dto.AuthRequestDTO;
+import com.umc.smupool.domain.auth.dto.AuthResponseDTO;
 import com.umc.smupool.domain.member.exception.MemberErrorCode;
 import com.umc.smupool.domain.member.exception.handler.MemberHandler;
 import com.umc.smupool.domain.member.converter.MemberConverter;
@@ -24,17 +26,15 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Member join(MemberRequestDTO.JoinDTO joinDTO) {
-        Member member = MemberConverter.toMember(joinDTO, passwordEncoder);
+    public Member join(MemberRequestDTO.JoinDTO joinDTO, AuthResponseDTO authResponseDTO) {
+        Member member = MemberConverter.toMember(joinDTO, passwordEncoder, authResponseDTO);
         return memberRepository.save(member);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Member readMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() ->{
-            throw new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER);
-        });
+    public Member readMember(Member member) {
+        return member;
     }
 
     @Override
@@ -43,16 +43,14 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findAll();
     }
 
-    @PreAuthorize("#memberId == principal.memberId")
     @Override
-    public void deleteMember(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(()-> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
+    public void deleteMember(Member member) {
         memberRepository.delete(member);
     }
 
     @Override
     public Member updateMember(Member member, MemberRequestDTO.UpdateMemberDTO updateMemberDTO) {
-        member.update(updateMemberDTO.getName(), updateMemberDTO.getNickname(), updateMemberDTO.getMajor());
+        member.update(updateMemberDTO.getNickname());
         return member;
     }
 }

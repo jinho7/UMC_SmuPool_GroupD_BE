@@ -7,7 +7,6 @@ import com.umc.smupool.global.Security.exception.JwtAccessDeniedHandler;
 import com.umc.smupool.global.Security.exception.JwtAuthenticationEntryPoint;
 import com.umc.smupool.global.Security.filter.LoginFilter;
 import com.umc.smupool.global.Security.util.JWTUtil;
-import com.umc.smupool.global.Security.filter.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +38,9 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/login"
+            "/login",
+            "/auth",
+            "/ws"
     };
 
     @Bean

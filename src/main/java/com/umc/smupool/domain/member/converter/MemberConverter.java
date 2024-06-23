@@ -1,6 +1,8 @@
 package com.umc.smupool.domain.member.converter;
 
 
+import com.umc.smupool.domain.auth.dto.AuthRequestDTO;
+import com.umc.smupool.domain.auth.dto.AuthResponseDTO;
 import com.umc.smupool.domain.member.dto.MemberRequestDTO;
 import com.umc.smupool.domain.member.dto.MemberResponseDTO;
 import com.umc.smupool.domain.member.entity.Member;
@@ -10,10 +12,13 @@ import java.util.List;
 
 public class MemberConverter {
 
-    public static Member toMember(MemberRequestDTO.JoinDTO joinDTO, PasswordEncoder passwordEncoder) {
+    public static Member toMember(MemberRequestDTO.JoinDTO joinDTO, PasswordEncoder passwordEncoder, AuthResponseDTO authResponseDTO) {
         return Member.builder()
                 .studentId(joinDTO.getStudentId())
                 .password(passwordEncoder.encode(joinDTO.getPassword()))
+                .name(authResponseDTO.name())
+                .nickname(authResponseDTO.name())
+                .major(authResponseDTO.department())
                 .build();
     }
 
