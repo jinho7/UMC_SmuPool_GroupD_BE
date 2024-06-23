@@ -14,13 +14,11 @@ import com.umc.smupool.domain.map.repository.CarpoolZoneRepository;
 import com.umc.smupool.domain.map.repository.MatchingRepository;
 import com.umc.smupool.domain.map.service.commandService.MatchingCommandService;
 import com.umc.smupool.domain.member.entity.Member;
+import com.umc.smupool.domain.member.exception.MemberErrorCode;
 import com.umc.smupool.domain.member.exception.handler.MemberHandler;
 import com.umc.smupool.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,13 +36,9 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
     private final MatchingRepository matchingRepository;
     private final CarpoolZoneRepository carpoolZoneRepository;
     private final MemberRepository memberRepository;
-    private final SimpMessagingTemplate messagingTemplate;
 
     private final ConcurrentHashMap<String, List<MatchingRequestDTO.CreateMatchingDTO>> matchingQueues = new ConcurrentHashMap<>();
     private final ApplicationEventPublisher eventPublisher;
-
-    private static final Logger logger = LoggerFactory.getLogger(MatchingCommandServiceImpl.class);
-
 
     @Override
     public Matching createMatching(MatchingRequestDTO.CreateMatchingDTO request, Member member) {
@@ -120,28 +114,14 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
     @Override
     public void checkAndMatch(String key) {
         List<MatchingRequestDTO.CreateMatchingDTO> queue = matchingQueues.get(key);
-        if (queue == null || queue.isEmpty()) {
-            return;  // 리스트가 비어 있으면 작업을 종료
-        }
-        synchronized (queue) { // 멀티스레드 환경에서 안전하게 접근하기 위해 동기화
-            if (queue.size() >= queue.get(0).getGoal_num()) {
-                List<Long> userIds = new ArrayList<>();
-                int goalNum = queue.get(0).getGoal_num();
-                Long zoneId = queue.get(0).getCarpoolZoneId();
-
-                for (int i = 0; i < goalNum; i++) {
-                    if (!queue.isEmpty()) { // 큐가 비어있는지 다시 확인
-                        userIds.add(queue.remove(0).getMemberId());
-                    } else {
-                        break; // 큐가 비어있으면 루프 종료
-                    }
-                }
-
-                createMatchingRoom(userIds, zoneId);
-                eventPublisher.publishEvent(new MatchingCompletedEvent(this, userIds));
-
-                messagingTemplate.convertAndSend("/topic/matchingCompleted", userIds);
+        if (queue.size() >= queue.get(0).getGoal_num()) {
+            List<Long> userIds = new ArrayList<>();
+            for (int i = 0; i < queue.get(0).getGoal_num(); i++) {
+                userIds.add(queue.remove(0).getMemberId());
             }
+            matchingQueues.remove(key);
+            createMatchingRoom(userIds, queue.get(0).getCarpoolZoneId());
+            eventPublisher.publishEvent(new MatchingCompletedEvent(this, userIds));
         }
     }
 
@@ -149,7 +129,7 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
     public Matching createMatchingRoom(List<Long> userIds, Long carpoolZoneId) {
         // 카풀존 정보 조회
         CarpoolZone carpoolZone = carpoolZoneRepository.findById(carpoolZoneId)
-                .orElseThrow(() -> new MalformedParameterizedTypeException("Carpool zone not found with ID: " + carpoolZoneId));
+                .orElseThrow(() -> new MatchingHandler(MatchingErrorCode._NOT_FOUND_CARPOOLZONE));
 
         // 매칭방 생성
         Matching matchingRoom = Matching.create(carpoolZone, userIds.size());
@@ -160,7 +140,7 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
         // 사용자 추가
         for (Long memberId : userIds) {
             Member member = memberRepository.findById(memberId)
-                    .orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId));
+                    .orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
             member.setMatching(savedMatchingRoom);
             savedMatchingRoom.addMemberMatchingList(member);
         }
@@ -168,7 +148,7 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
         // 사용자 저장
         memberRepository.saveAll(userIds.stream()
                 .map(memberId -> memberRepository.findById(memberId)
-                        .orElseThrow(() -> new IllegalArgumentException("Member not found with ID: " + memberId)))
+                        .orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER)))
                 .toList());
 
         return savedMatchingRoom;

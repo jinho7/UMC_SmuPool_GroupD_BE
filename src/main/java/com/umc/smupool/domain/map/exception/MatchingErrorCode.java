@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatus;
 public enum MatchingErrorCode implements BaseErrorCode {
 
     // Matching 에러
-    _NOT_FOUND_MATCHING(HttpStatus.NOT_FOUND, "MATCHING400","매칭을 찾을 수 없습니다.");
+    _NOT_FOUND_MATCHING(HttpStatus.NOT_FOUND, "MATCHING400","매칭을 찾을 수 없습니다."),
+    _NOT_FOUND_CARPOOLZONE(HttpStatus.NOT_FOUND, "MATCHING401", "카풀존을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
