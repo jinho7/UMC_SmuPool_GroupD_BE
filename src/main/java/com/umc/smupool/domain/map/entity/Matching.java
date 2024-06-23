@@ -53,5 +53,9 @@ public class Matching extends BaseEntity {
         this.goal_num = goal_num;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
 
 }
