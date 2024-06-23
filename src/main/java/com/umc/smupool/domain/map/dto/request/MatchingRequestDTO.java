@@ -7,13 +7,15 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 public class MatchingRequestDTO {
 
     @Getter
     public static class CreateMatchingDTO{
-        LocalDateTime time;
+        Long memberId;
         int goal_num;
         Long carpoolZoneId;
+        LocalDateTime time;
     }
 
     @Getter

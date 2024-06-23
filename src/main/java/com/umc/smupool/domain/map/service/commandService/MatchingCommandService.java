@@ -10,4 +10,7 @@ public interface MatchingCommandService {
     Matching updateMatchingStatus(Long matchingId, MatchingRequestDTO.UpdateMatchingStatusDTO request);
     Matching updateMatchingGoalNum(Long matchingId, MatchingRequestDTO.UpdateMatchingtGoalNumDTO request);
     Matching addMemberMatchingList(Long matchingId, Member member);
+    void addToQueue(MatchingRequestDTO.CreateMatchingDTO requestDTO);
+    String generateQueueKey(Long carPoolZoneId, int goalNum);
+    void checkAndMatch(String key);
 }

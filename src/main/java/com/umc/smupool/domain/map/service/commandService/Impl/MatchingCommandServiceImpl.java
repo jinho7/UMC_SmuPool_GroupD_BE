@@ -4,6 +4,7 @@ import com.umc.smupool.domain.map.converter.MatchingConverter;
 import com.umc.smupool.domain.map.dto.request.MatchingRequestDTO;
 import com.umc.smupool.domain.map.entity.CarpoolZone;
 import com.umc.smupool.domain.map.entity.Matching;
+import com.umc.smupool.domain.map.event.MatchingCompletedEvent;
 import com.umc.smupool.domain.map.exception.CarpoolZoneErrorCode;
 import com.umc.smupool.domain.map.exception.MatchingErrorCode;
 import com.umc.smupool.domain.map.exception.handler.CarpoolZoneHandler;
@@ -12,15 +13,17 @@ import com.umc.smupool.domain.map.repository.CarpoolZoneRepository;
 import com.umc.smupool.domain.map.repository.MatchingRepository;
 import com.umc.smupool.domain.map.service.commandService.MatchingCommandService;
 import com.umc.smupool.domain.member.entity.Member;
-import com.umc.smupool.domain.member.exception.MemberErrorCode;
 import com.umc.smupool.domain.member.exception.handler.MemberHandler;
 import com.umc.smupool.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,8 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
     private final MatchingRepository matchingRepository;
     private final MemberRepository memberRepository;
     private final CarpoolZoneRepository carpoolZoneRepository;
+    private final Map<String, List<MatchingRequestDTO.CreateMatchingDTO>> matchingQueues = new ConcurrentHashMap<>();
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public Matching createMatching(MatchingRequestDTO.CreateMatchingDTO request, Member member) {
@@ -71,6 +76,32 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
         matching.addMemberMatchingList(member);
         member.setMatching(matching);
         return matching;
+    }
+
+    @Override
+    public void addToQueue(MatchingRequestDTO.CreateMatchingDTO requestDTO) {
+        String key = generateQueueKey(requestDTO.getCarpoolZoneId(), requestDTO.getGoal_num());
+        matchingQueues.putIfAbsent(key, new ArrayList<>());
+        matchingQueues.get(key).add(requestDTO);
+        checkAndMatch(key);
+    }
+
+    @Override
+    public String generateQueueKey(Long carPoolZoneId, int goalNum) {
+        return carPoolZoneId + "_" + goalNum;
+    }
+
+    @Override
+    public void checkAndMatch(String key) {
+        List<MatchingRequestDTO.CreateMatchingDTO> queue = matchingQueues.get(key);
+        if (queue.size() >= queue.get(0).getGoal_num()) {
+            List<Long> userIds = new ArrayList<>();
+            for (int i = 0; i < queue.get(0).getGoal_num(); i++) {
+                userIds.add(queue.remove(0).getMemberId());
+            }
+            matchingQueues.remove(key);
+            eventPublisher.publishEvent(new MatchingCompletedEvent(this, userIds));
+        }
     }
 
 }

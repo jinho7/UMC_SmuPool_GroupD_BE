@@ -28,6 +28,11 @@ public class MatchingController {
         return ApiResponse.onSuccess(MatchingConverter.toCreateMatchingResultDTO(matching));
     }
 
+    @PostMapping("/request")
+    public void requestMatching(@RequestBody MatchingRequestDTO.CreateMatchingDTO requestDTO) {
+        matchingCommandService.addToQueue(requestDTO);
+    }
+
     @GetMapping("/{matchingId}")
     public ApiResponse<MatchingResponseDTO.MatchingPreviewDTO> readMatching(@PathVariable Long matchingId){
         Matching matching = matchingQueryService.readMatching(matchingId);
