@@ -6,6 +6,8 @@ import com.umc.smupool.domain.map.dto.response.MatchingResponseDTO;
 import com.umc.smupool.domain.map.entity.Matching;
 import com.umc.smupool.domain.map.service.commandService.MatchingCommandService;
 import com.umc.smupool.domain.map.service.queryService.MatchingQueryService;
+import com.umc.smupool.domain.member.entity.Member;
+import com.umc.smupool.global.annotation.AuthMember;
 import com.umc.smupool.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +23,8 @@ public class MatchingController {
     private final MatchingQueryService matchingQueryService;
 
     @PostMapping("/")
-    public ApiResponse<MatchingResponseDTO.CreateMatchingResultDTO> createMatching(@RequestBody @Valid MatchingRequestDTO.CreateMatchingDTO request) {
-        Matching matching = matchingCommandService.createMatching(request);
+    public ApiResponse<MatchingResponseDTO.CreateMatchingResultDTO> createMatching(@RequestBody @Valid MatchingRequestDTO.CreateMatchingDTO request, @AuthMember Member member) {
+        Matching matching = matchingCommandService.createMatching(request, member);
         return ApiResponse.onSuccess(MatchingConverter.toCreateMatchingResultDTO(matching));
     }
 
@@ -57,8 +59,8 @@ public class MatchingController {
     }
 
     @PatchMapping("/{matchingId}/memberMatchingList")
-    public ApiResponse<MatchingResponseDTO.MatchingPreviewDTO> updateMatchingMemberMatching(@PathVariable Long matchingId, @RequestBody @Valid MatchingRequestDTO.AddMatchingMemberMatchingListDTO request) {
-        Matching matching = matchingCommandService.addMemberMatchingList(matchingId, request);
+    public ApiResponse<MatchingResponseDTO.MatchingPreviewDTO> updateMatchingMemberMatching(@PathVariable Long matchingId, @AuthMember Member member) {
+        Matching matching = matchingCommandService.addMemberMatchingList(matchingId, member);
         return ApiResponse.onSuccess(MatchingConverter.toMatchingPreviewDTO(matching));
     }
 }
