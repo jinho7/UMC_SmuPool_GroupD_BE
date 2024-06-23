@@ -68,4 +68,5 @@ public class MatchingController {
         Matching matching = matchingCommandService.addMemberMatchingList(matchingId, member);
         return ApiResponse.onSuccess(MatchingConverter.toMatchingPreviewDTO(matching));
     }
+
 }

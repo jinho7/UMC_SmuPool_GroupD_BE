@@ -57,5 +57,14 @@ public class Matching extends BaseEntity {
         this.status = status;
     }
 
+    public static Matching create(CarpoolZone carpoolZone, int goalNum) {
+        Matching matching = new Matching();
+        matching.carpoolZone = carpoolZone;
+        matching.goal_num = goalNum;
+        matching.status = Status.MATCHED;
+        matching.time = LocalDateTime.now();
+        return matching;
+    }
+
 
 }

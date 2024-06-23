@@ -4,10 +4,7 @@ import com.umc.smupool.domain.map.dto.request.MatchingRequestDTO;
 import com.umc.smupool.domain.map.dto.response.MatchingResponseDTO;
 import com.umc.smupool.domain.map.entity.CarpoolZone;
 import com.umc.smupool.domain.map.entity.Matching;
-import com.umc.smupool.domain.map.service.commandService.CarpoolZoneCommandService;
 import com.umc.smupool.domain.member.entity.Member;
-import lombok.RequiredArgsConstructor;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +21,7 @@ public class MatchingConverter {
     public static Matching toMatching(MatchingRequestDTO.CreateMatchingDTO request, CarpoolZone carpoolZone) {
 
         return Matching.builder()
-                .time(request.getTime())
+//                .time(request.getTime())
                 .goal_num(request.getGoal_num())
                 .carpoolZone(carpoolZone)
                 .memberMatchingList(new ArrayList<>())

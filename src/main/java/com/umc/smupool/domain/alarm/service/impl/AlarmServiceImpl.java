@@ -4,6 +4,7 @@ import com.umc.smupool.domain.alarm.dto.MessageAlarmDTO;
 import com.umc.smupool.domain.alarm.dto.MatchingAlarmDTO;
 import com.umc.smupool.domain.alarm.event.MatchingEvent;
 import com.umc.smupool.domain.alarm.service.AlarmService;
+import com.umc.smupool.domain.map.event.MatchingCompletedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -43,5 +44,11 @@ public class AlarmServiceImpl implements AlarmService {
         // 사용자의 개인 알림 경로로 메시지 전송
         String destination = "/queue/notifications/" + matchingAlarmDTO.getMemberId();
         messagingTemplate.convertAndSend(destination, matchingAlarmDTO);
+    }
+
+    @EventListener
+    public void handleMatchingCompleted(MatchingCompletedEvent event) {
+        // 매칭 완료 이벤트를 처리하고 /topic/matchingCompleted 경로로 메시지 전송
+        messagingTemplate.convertAndSend("/topic/matchingCompleted", event.getUserIds());
     }
 }

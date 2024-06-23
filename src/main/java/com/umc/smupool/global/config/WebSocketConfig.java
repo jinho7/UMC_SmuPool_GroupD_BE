@@ -18,6 +18,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();  // /ws는 WebSocket의 연결 경로
+        registry.addEndpoint("/ws").setAllowedOrigins("*");  // /ws는 WebSocket의 연결 경로
     }
 }

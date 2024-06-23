@@ -3,8 +3,6 @@ package com.umc.smupool.domain.map.dto.request;
 import com.umc.smupool.domain.map.entity.enums.Status;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 
 public class MatchingRequestDTO {
 
@@ -13,7 +11,6 @@ public class MatchingRequestDTO {
         Long memberId;
         int goal_num;
         Long carpoolZoneId;
-        LocalDateTime time;
     }
 
     @Getter
