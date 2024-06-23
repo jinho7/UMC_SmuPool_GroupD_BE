@@ -32,19 +32,14 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
     private final CarpoolZoneRepository carpoolZoneRepository;
 
     @Override
-    public Matching createMatching(MatchingRequestDTO.CreateMatchingDTO request) {
+    public Matching createMatching(MatchingRequestDTO.CreateMatchingDTO request, Member member) {
         CarpoolZone carpoolZone = carpoolZoneRepository.findById(request.getCarpoolZoneId())
                 .orElseThrow(() -> new CarpoolZoneHandler(CarpoolZoneErrorCode._NOT_FOUND_CARPOOLZONE));
 
         Matching newMatching = MatchingConverter.toMatching(request, carpoolZone);
 
-        request.getMemberMatcingList().stream()
-                .map(memberId -> memberRepository.findById(memberId)
-                        .orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER)))
-                .forEach(member -> {
-                    newMatching.addMemberMatchingList(member);
-                    member.setMatching(newMatching);
-                });
+        newMatching.addMemberMatchingList(member);
+        member.setMatching(newMatching);
 
         return matchingRepository.save(newMatching);
     }
@@ -71,9 +66,8 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
     }
 
     @Override
-    public Matching addMemberMatchingList(Long matchingId, MatchingRequestDTO.AddMatchingMemberMatchingListDTO request){
+    public Matching addMemberMatchingList(Long matchingId, Member member){
         Matching matching = matchingRepository.findById(matchingId).orElseThrow(() -> new MatchingHandler(MatchingErrorCode._NOT_FOUND_MATCHING));
-        Member member = memberRepository.findById(request.getMemberMatchingId()).orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
         matching.addMemberMatchingList(member);
         member.setMatching(matching);
         return matching;
