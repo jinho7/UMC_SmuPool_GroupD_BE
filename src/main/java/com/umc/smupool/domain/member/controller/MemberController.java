@@ -50,5 +50,4 @@ public class MemberController {
         return ApiResponse.onSuccess("멤버가 삭제되었습니다.");
     }
 
-
 }
