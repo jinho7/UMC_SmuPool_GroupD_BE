@@ -11,12 +11,9 @@ import com.umc.smupool.global.annotation.AuthMember;
 import com.umc.smupool.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequiredArgsConstructor
