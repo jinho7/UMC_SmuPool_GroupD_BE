@@ -1,6 +1,8 @@
 package com.umc.smupool.domain.member.controller;
 
 
+import com.umc.smupool.domain.auth.dto.AuthResponseDTO;
+import com.umc.smupool.domain.auth.service.AuthService;
 import com.umc.smupool.domain.member.converter.MemberConverter;
 import com.umc.smupool.domain.member.dto.MemberRequestDTO;
 import com.umc.smupool.domain.member.dto.MemberResponseDTO;
