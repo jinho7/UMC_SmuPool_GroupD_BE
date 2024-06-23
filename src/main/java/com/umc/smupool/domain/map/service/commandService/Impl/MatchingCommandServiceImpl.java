@@ -1,9 +1,12 @@
 package com.umc.smupool.domain.map.service.commandService.Impl;
 
+import com.umc.smupool.domain.chat.entity.ChatRoom;
+import com.umc.smupool.domain.chat.service.ChatRoomService;
 import com.umc.smupool.domain.map.converter.MatchingConverter;
 import com.umc.smupool.domain.map.dto.request.MatchingRequestDTO;
 import com.umc.smupool.domain.map.entity.CarpoolZone;
 import com.umc.smupool.domain.map.entity.Matching;
+import com.umc.smupool.domain.map.event.ChatRoomCreatedEvent;
 import com.umc.smupool.domain.map.event.MatchingCompletedEvent;
 import com.umc.smupool.domain.map.entity.enums.Status;
 import com.umc.smupool.domain.map.exception.CarpoolZoneErrorCode;
@@ -35,6 +38,7 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
     private final MatchingRepository matchingRepository;
     private final CarpoolZoneRepository carpoolZoneRepository;
     private final MemberRepository memberRepository;
+    private final ChatRoomService chatRoomService;
 
     private final ConcurrentHashMap<String, List<MatchingRequestDTO.CreateMatchingDTO>> matchingQueues = new ConcurrentHashMap<>();
     private final ApplicationEventPublisher eventPublisher;
@@ -113,14 +117,29 @@ public class MatchingCommandServiceImpl implements MatchingCommandService {
     @Override
     public void checkAndMatch(String key) {
         List<MatchingRequestDTO.CreateMatchingDTO> queue = matchingQueues.get(key);
-        if (queue.size() >= queue.get(0).getGoal_num()) {
-            List<Long> userIds = new ArrayList<>();
-            for (int i = 0; i < queue.get(0).getGoal_num(); i++) {
-                userIds.add(queue.remove(0).getMemberId());
+        if (queue == null || queue.isEmpty()) {
+            return;  // 리스트가 비어 있으면 작업을 종료
+        }
+        synchronized (queue) { // 멀티스레드 환경에서 안전하게 접근하기 위해 동기화
+            if (queue.size() >= queue.get(0).getGoal_num()) {
+                List<Long> userIds = new ArrayList<>();
+                int goalNum = queue.get(0).getGoal_num();
+                Long zoneId = queue.get(0).getCarpoolZoneId();
+
+                for (int i = 0; i < goalNum; i++) {
+                    if (!queue.isEmpty()) { // 큐가 비어있는지 다시 확인
+                        userIds.add(queue.remove(0).getMemberId());
+                    } else {
+                        break; // 큐가 비어있으면 루프 종료
+                    }
+                }
+                createMatchingRoom(userIds, zoneId);
+                eventPublisher.publishEvent(new MatchingCompletedEvent(this, userIds));
+
+                List<Member> members = chatRoomService.findMatchingMember(userIds);
+                ChatRoom chatRoom = chatRoomService.createChatRoom(members);
+                eventPublisher.publishEvent(new ChatRoomCreatedEvent(this, chatRoom.getId()));
             }
-            matchingQueues.remove(key);
-            createMatchingRoom(userIds, queue.get(0).getCarpoolZoneId());
-            eventPublisher.publishEvent(new MatchingCompletedEvent(this, userIds));
         }
     }
 

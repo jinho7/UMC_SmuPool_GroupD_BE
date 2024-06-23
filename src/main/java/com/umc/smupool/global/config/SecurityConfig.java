@@ -50,6 +50,12 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+
+        // cors 비활성화
+        http
+                .cors(cors -> cors
+                        .configurationSource(CorsConfig.apiConfigurationSource()));
+
         http.csrf(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests((requests) -> requests

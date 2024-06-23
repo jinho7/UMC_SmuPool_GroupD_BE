@@ -20,11 +20,11 @@ public class CarpoolZoneController {
     private final CarpoolZoneCommandService carpoolZoneCommandService;
     private final CarpoolZoneQueryService carpoolZoneQueryService;
 
-    @PostMapping("/")
-    public ApiResponse<CarpoolZoneResponseDTO.CreateCarpoolZoneResultDTO> createCarpoolZone(@RequestBody CarpoolZoneRequestDTO.CreateCarpoolZoneDTO request) {
-        CarpoolZone carpoolZone = carpoolZoneCommandService.createCarpoolZone(request);
-        return ApiResponse.onSuccess(CarpoolZoneConverter.toCreateCarpoolZoneDTO(carpoolZone));
-    }
+//    @PostMapping("/")
+//    public ApiResponse<CarpoolZoneResponseDTO.CreateCarpoolZoneResultDTO> createCarpoolZone(@RequestBody CarpoolZoneRequestDTO.CreateCarpoolZoneDTO request) {
+//        CarpoolZone carpoolZone = carpoolZoneCommandService.createCarpoolZone(request);
+//        return ApiResponse.onSuccess(CarpoolZoneConverter.toCreateCarpoolZoneDTO(carpoolZone));
+//    }
 
     @GetMapping("/{carpoolZoneId}")
     public ApiResponse<CarpoolZoneResponseDTO.CarpoolZonePreviewDTO> readCarpoolZone(@PathVariable Long carpoolZoneId){
@@ -38,16 +38,16 @@ public class CarpoolZoneController {
         return ApiResponse.onSuccess(CarpoolZoneConverter.toCarpoolZonePreviewListDTO(carpoolZoneList));
     }
 
-    @DeleteMapping("/{carpoolZoneId}")
-    public ApiResponse<String> deleteCarpoolZone(@PathVariable Long carpoolZoneId) {
-        carpoolZoneCommandService.deleteCarpoolZone(carpoolZoneId);
-        return ApiResponse.onSuccess("CarpoolZone이 삭제되었습니다.");
-    }
+//    @DeleteMapping("/{carpoolZoneId}")
+//    public ApiResponse<String> deleteCarpoolZone(@PathVariable Long carpoolZoneId) {
+//        carpoolZoneCommandService.deleteCarpoolZone(carpoolZoneId);
+//        return ApiResponse.onSuccess("CarpoolZone이 삭제되었습니다.");
+//    }
 
-    @PatchMapping("/{carpoolZoneId}")
-    public ApiResponse<CarpoolZoneResponseDTO.CarpoolZonePreviewDTO> updateCarpoolZone(@RequestBody CarpoolZoneRequestDTO.UpdateCarpoolZoneDTO request, @PathVariable Long carpoolZoneId) {
-        CarpoolZone carpoolZone = carpoolZoneCommandService.updateCarpoolZone(request, carpoolZoneId);
-        return ApiResponse.onSuccess(CarpoolZoneConverter.toCarpoolZonePreviewDTO(carpoolZone));
-
-    }
+//    @PatchMapping("/{carpoolZoneId}")
+//    public ApiResponse<CarpoolZoneResponseDTO.CarpoolZonePreviewDTO> updateCarpoolZone(@RequestBody CarpoolZoneRequestDTO.UpdateCarpoolZoneDTO request, @PathVariable Long carpoolZoneId) {
+//        CarpoolZone carpoolZone = carpoolZoneCommandService.updateCarpoolZone(request, carpoolZoneId);
+//        return ApiResponse.onSuccess(CarpoolZoneConverter.toCarpoolZonePreviewDTO(carpoolZone));
+//
+//    }
 }

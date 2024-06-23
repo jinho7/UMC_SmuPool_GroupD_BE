@@ -5,9 +5,6 @@ import com.umc.smupool.domain.member.exception.MemberErrorCode;
 import com.umc.smupool.domain.member.exception.handler.MemberHandler;
 import com.umc.smupool.domain.member.repository.MemberRepository;
 import com.umc.smupool.global.Security.userdetails.PrincipalDetails;
-import com.umc.smupool.global.apiPayload.code.status.GeneralErrorCode;
-import com.umc.smupool.global.apiPayload.exception.GeneralException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -31,7 +28,6 @@ public class AuthMemberArgumentResolver implements HandlerMethodArgumentResolver
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasParameterAnnotation = parameter.hasParameterAnnotation(AuthMember.class);
         boolean isUserParameterType = parameter.getParameterType().isAssignableFrom(Member.class);
-        log.info("supportsParameter" + hasParameterAnnotation + isUserParameterType);
         return hasParameterAnnotation && isUserParameterType;
     }
 
@@ -44,7 +40,7 @@ public class AuthMemberArgumentResolver implements HandlerMethodArgumentResolver
                 .getPrincipal();
 
         Long studentId = Long.valueOf(((PrincipalDetails)userDetails).getUsername());
-
+        log.info("헤더 Jwt 토큰에서 추출한 학번: " + studentId);
         return memberRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new MemberHandler(MemberErrorCode._NOT_FOUND_MEMBER));
     }

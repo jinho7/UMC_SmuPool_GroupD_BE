@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.Arrays;
 import java.util.List;
 
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CorsConfig implements WebMvcConfigurer {
 
@@ -22,7 +21,9 @@ public class CorsConfig implements WebMvcConfigurer {
         List<String> allowedOriginPatterns = Arrays.asList(
                 "http://localhost:8000",
                 "http://localhost:8080",
-                "http://localhost:3000"
+                "http://localhost:3000",
+                "http://localhost:8008",
+                "*"
         );
         configuration.setAllowedOriginPatterns(allowedOriginPatterns);
 
@@ -35,9 +36,6 @@ public class CorsConfig implements WebMvcConfigurer {
         // 허용할 요청 헤더 설정
         List<String> allowedHeaders = Arrays.asList("*");
         configuration.setAllowedHeaders(allowedHeaders);
-
-        // 쿠키 사용 여부 설정
-        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
